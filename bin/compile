@@ -32,32 +32,36 @@ BP_DIR=$(cd "$(dirname "${0:-}")" || exit 1 ; cd ..; pwd)
 VENDOR_DIR="$BUILD_DIR/.heroku-geo-buildpack/vendor"
 
 DEFAULT_GDAL_VERSION="3.8.5"
-DEFAULT_GEOS_VERSION="3.10.2"
-DEFAULT_PROJ_VERSION="8.2.1"
+DEFAULT_GEOS_VERSION="3.11.2"
+DEFAULT_PROJ_VERSION="9.4.0"
 
-if [ -f "$ENV_DIR/GDAL_VERSION" ]; then
-    GDAL_VERSION=$(cat "$ENV_DIR/GDAL_VERSION")
-elif [ -f "$CACHE_DIR/.heroku-geo-buildpack/GDAL-version" ]; then
-    GDAL_VERSION=$(cat "$CACHE_DIR/.heroku-geo-buildpack/GDAL-version")
-else
-    GDAL_VERSION=$DEFAULT_GDAL_VERSION
-fi
+# if [ -f "$ENV_DIR/GDAL_VERSION" ]; then
+#     GDAL_VERSION=$(cat "$ENV_DIR/GDAL_VERSION")
+# elif [ -f "$CACHE_DIR/.heroku-geo-buildpack/GDAL-version" ]; then
+#     GDAL_VERSION=$(cat "$CACHE_DIR/.heroku-geo-buildpack/GDAL-version")
+# else
+#     GDAL_VERSION=$DEFAULT_GDAL_VERSION
+# fi
 
-if [ -f "$ENV_DIR/GEOS_VERSION" ]; then
-    GEOS_VERSION=$(cat "$ENV_DIR/GEOS_VERSION")
-elif [ -f "$CACHE_DIR/.heroku-geo-buildpack/GEOS-version" ]; then
-    GEOS_VERSION=$(cat "$CACHE_DIR/.heroku-geo-buildpack/GEOS-version")
-else
-    GEOS_VERSION=$DEFAULT_GEOS_VERSION
-fi
+# if [ -f "$ENV_DIR/GEOS_VERSION" ]; then
+#     GEOS_VERSION=$(cat "$ENV_DIR/GEOS_VERSION")
+# elif [ -f "$CACHE_DIR/.heroku-geo-buildpack/GEOS-version" ]; then
+#     GEOS_VERSION=$(cat "$CACHE_DIR/.heroku-geo-buildpack/GEOS-version")
+# else
+#     GEOS_VERSION=$DEFAULT_GEOS_VERSION
+# fi
 
-if [ -f "$ENV_DIR/PROJ_VERSION" ]; then
-    PROJ_VERSION=$(cat "$ENV_DIR/PROJ_VERSION")
-elif [ -f "$CACHE_DIR/.heroku-geo-buildpack/PROJ-version" ]; then
-    PROJ_VERSION=$(cat "$CACHE_DIR/.heroku-geo-buildpack/PROJ-version")
-else
-    PROJ_VERSION=$DEFAULT_PROJ_VERSION
-fi
+# if [ -f "$ENV_DIR/PROJ_VERSION" ]; then
+#     PROJ_VERSION=$(cat "$ENV_DIR/PROJ_VERSION")
+# elif [ -f "$CACHE_DIR/.heroku-geo-buildpack/PROJ-version" ]; then
+#     PROJ_VERSION=$(cat "$CACHE_DIR/.heroku-geo-buildpack/PROJ-version")
+# else
+#     PROJ_VERSION=$DEFAULT_PROJ_VERSION
+# fi
+
+GDAL_VERSION=$DEFAULT_GDAL_VERSION
+GEOS_VERSION=$DEFAULT_GEOS_VERSION
+PROJ_VERSION=$DEFAULT_PROJ_VERSION
 
 vendor_lib "GDAL" "$GDAL_VERSION" "$VENDOR_DIR"
 vendor_lib "GEOS" "$GEOS_VERSION" "$VENDOR_DIR"
