@@ -17,38 +17,38 @@ vendor_lib() {
     echo "-----> Version: $VERSION"
     echo "-----> Vendor Directory: $VENDOR_DIR"
     echo "-----> Library URL: $LIBRARY_URL"
-    if ! curl "${LIBRARY_URL}" -s | tar zxv -C "$VENDOR_DIR"; then
-      echo " !     Failed to install $LIBRARY Version ($VERSION)"
-      echo " !     Aborting."
+    # if ! curl "${LIBRARY_URL}" -s | tar zxv -C "$VENDOR_DIR"; then
+    #   echo " !     Failed to install $LIBRARY Version ($VERSION)"
+    #   echo " !     Aborting."
+    #   exit 1
+    # fi
+
+    # new start
+    echo "-----> Fetching: $LIBRARY_URL"
+    echo "-----> Output: $VENDOR_DIR/$LIBRARY-$VERSION.tar.gz"
+    if ! curl -sSfL "${LIBRARY_URL}" -o "$VENDOR_DIR/$LIBRARY-$VERSION.tar.gz"; then
+      echo " !     Failed to download $LIBRARY Version ($VERSION) from $LIBRARY_URL"
       exit 1
     fi
 
-    # new start
-    # echo "-----> Fetching: $LIBRARY_URL"
-    # echo "-----> Output: $VENDOR_DIR/$LIBRARY-$VERSION.tar.gz"
-    # if ! curl -sSfL "${LIBRARY_URL}" -o "$VENDOR_DIR/$LIBRARY-$VERSION.tar.gz"; then
-    #   echo " !     Failed to download $LIBRARY Version ($VERSION) from $LIBRARY_URL"
-    #   exit 1
-    # fi
+    # Extract the archive
+    echo "-----> Extracting $LIBRARY-$VERSION"
+    echo "-----> File path: $VENDOR_DIR/$LIBRARY-$VERSION.tar.gz"
+    if ! tar xzf "$VENDOR_DIR/$LIBRARY-$VERSION.tar.gz" -C "$VENDOR_DIR"; then
+      echo " !     Failed to extract $LIBRARY Version ($VERSION)"
+      exit 1
+    fi
 
-    # # Extract the archive
-    # echo "-----> Extracting $LIBRARY-$VERSION"
-    # echo "-----> File path: $VENDOR_DIR/$LIBRARY-$VERSION.tar.gz"
-    # if ! tar xzf "$VENDOR_DIR/$LIBRARY-$VERSION.tar.gz" -C "$VENDOR_DIR"; then
-    #   echo " !     Failed to extract $LIBRARY Version ($VERSION)"
-    #   exit 1
-    # fi
+    # Verify extraction success
+    echo "-----> Verifying extraction success: $VENDOR_DIR/$LIBRARY-$VERSION"
+    if [ ! -d "$VENDOR_DIR/$LIBRARY-$VERSION" ]; then
+      echo " !     Failed to find extracted directory for $LIBRARY Version ($VERSION)"
+      exit 1
+    fi
 
-    # # Verify extraction success
-    # echo "-----> Verifying extraction success: $VENDOR_DIR/$LIBRARY-$VERSION"
-    # if [ ! -d "$VENDOR_DIR/$LIBRARY-$VERSION" ]; then
-    #   echo " !     Failed to find extracted directory for $LIBRARY Version ($VERSION)"
-    #   exit 1
-    # fi
-
-    # # Clean up downloaded archive
-    # rm "$VENDOR_DIR/$LIBRARY-$VERSION.tar.gz"
-    # new end
+    # Clean up downloaded archive
+    rm "$VENDOR_DIR/$LIBRARY-$VERSION.tar.gz"
+    new end
 
     echo "-----> Successfully installed $LIBRARY-$VERSION"
 
