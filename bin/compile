@@ -12,7 +12,7 @@ vendor_lib() {
     mkdir -p "$VENDOR_DIR"
     echo "-----> Library: $LIBRARY"
     echo "-----> Version: $VERSION"
-    echo "-----> Vendor Directory: $LIBRARY_URL"
+    echo "-----> Vendor Directory: $VENDOR_DIR"
     echo "-----> Library URL: $LIBRARY_URL"
     # if ! curl "${LIBRARY_URL}" -s | tar zxv -C "$VENDOR_DIR" &> /dev/null; then
     #   echo " !     Requested $LIBRARY Version ($VERSION) is not available for this stack ($STACK)."
