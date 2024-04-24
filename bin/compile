@@ -10,6 +10,7 @@ vendor_lib() {
     LIBRARY_URL="https://github.com/atharva-borekar/heroku-gdal-buildpack/raw/master/zips/${LIBRARY}-${VERSION}.tar.gz"
 
     mkdir -p "$VENDOR_DIR"
+    echo "$LIBRARY_URL"
     if ! curl "${LIBRARY_URL}" -s | tar zxv -C "$VENDOR_DIR" &> /dev/null; then
       echo " !     Requested $LIBRARY Version ($VERSION) is not available for this stack ($STACK)."
       echo " !     See: https://github.com/heroku/heroku-geo-buildpack#available-versions"
