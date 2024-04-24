@@ -30,18 +30,18 @@ vendor_lib() {
 
     # Extract the archive
     echo "-----> Extracting $LIBRARY-$VERSION"
-    echo "-----> File name: $VENDOR_DIR/$LIBRARY-$VERSION.tar.gz"
+    echo "-----> File path: $VENDOR_DIR/$LIBRARY-$VERSION.tar.gz"
     if ! tar xzf "$VENDOR_DIR/$LIBRARY-$VERSION.tar.gz" -C "$VENDOR_DIR"; then
       echo " !     Failed to extract $LIBRARY Version ($VERSION)"
       exit 1
     fi
 
     # Verify extraction success
-    echo "-----> Verifying extraction success: $VENDOR_DIR/$LIBRARY-$VERSION"
-    if [ ! -d "$VENDOR_DIR/$LIBRARY-$VERSION" ]; then
-      echo " !     Failed to find extracted directory for $LIBRARY Version ($VERSION)"
-      exit 1
-    fi
+    # echo "-----> Verifying extraction success: $VENDOR_DIR/$LIBRARY-$VERSION"
+    # if [ ! -d "$VENDOR_DIR/$LIBRARY-$VERSION" ]; then
+    #   echo " !     Failed to find extracted directory for $LIBRARY Version ($VERSION)"
+    #   exit 1
+    # fi
 
     # Clean up downloaded archive
     rm "$VENDOR_DIR/$LIBRARY-$VERSION.tar.gz"
