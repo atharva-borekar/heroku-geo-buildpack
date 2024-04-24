@@ -10,10 +10,10 @@ vendor_lib() {
     LIBRARY_URL="https://github.com/atharva-borekar/heroku-gdal-buildpack/raw/master/zips/${LIBRARY}-${VERSION}.tar.gz"
 
     mkdir -p "$VENDOR_DIR"
-    echo "Library: $LIBRARY"
-    echo "Version: $VERSION"
-    echo "Vendor Directory: $LIBRARY_URL"
-    echo "Library URL: $LIBRARY_URL"
+    echo "-----> Library: $LIBRARY"
+    echo "-----> Version: $VERSION"
+    echo "-----> Vendor Directory: $LIBRARY_URL"
+    echo "-----> Library URL: $LIBRARY_URL"
     # if ! curl "${LIBRARY_URL}" -s | tar zxv -C "$VENDOR_DIR" &> /dev/null; then
     #   echo " !     Requested $LIBRARY Version ($VERSION) is not available for this stack ($STACK)."
     #   echo " !     See: https://github.com/heroku/heroku-geo-buildpack#available-versions"
@@ -21,6 +21,8 @@ vendor_lib() {
     #   exit 1
     # fi
 
+    echo "-----> Fetching: $LIBRARY_URL"
+    echo "-----> Output: $VENDOR_DIR/$LIBRARY-$VERSION.tar.gz"
     if ! curl -sSfL "${LIBRARY_URL}" -o "$VENDOR_DIR/$LIBRARY-$VERSION.tar.gz"; then
       echo " !     Failed to download $LIBRARY Version ($VERSION) from $LIBRARY_URL"
       exit 1
@@ -28,12 +30,14 @@ vendor_lib() {
 
     # Extract the archive
     echo "-----> Extracting $LIBRARY-$VERSION"
+    echo "-----> File name: $VENDOR_DIR/$LIBRARY-$VERSION.tar.gz"
     if ! tar xzf "$VENDOR_DIR/$LIBRARY-$VERSION.tar.gz" -C "$VENDOR_DIR"; then
       echo " !     Failed to extract $LIBRARY Version ($VERSION)"
       exit 1
     fi
 
     # Verify extraction success
+    echo "-----> Verifying extraction success: $VENDOR_DIR/$LIBRARY-$VERSION"
     if [ ! -d "$VENDOR_DIR/$LIBRARY-$VERSION" ]; then
       echo " !     Failed to find extracted directory for $LIBRARY Version ($VERSION)"
       exit 1
