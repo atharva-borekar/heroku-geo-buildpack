@@ -39,7 +39,7 @@ vendor_lib() {
       exit 1
     fi
 
-    Verify extraction success
+    # Verify extraction success
     echo "-----> Verifying extraction success: $VENDOR_DIR/$LIBRARY-$VERSION"
     if [ ! -d "$VENDOR_DIR/$LIBRARY-$VERSION" ]; then
       echo " !     Failed to find extracted directory for $LIBRARY Version ($VERSION)"
