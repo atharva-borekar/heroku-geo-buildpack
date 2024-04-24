@@ -6,10 +6,10 @@ vendor_lib() {
     VENDOR_DIR=$3
 
     echo "-----> Installing $LIBRARY-$VERSION"
-    LIBRARY_URL="https://heroku-buildpack-geo.s3.amazonaws.com/${STACK}/${LIBRARY}/${LIBRARY}-${VERSION}.tar.gz"
+    # LIBRARY_URL="https://heroku-buildpack-geo.s3.amazonaws.com/${STACK}/${LIBRARY}/${LIBRARY}-${VERSION}.tar.gz"
 
     # new start
-    # LIBRARY_URL="https://github.com/atharva-borekar/heroku-gdal-buildpack/raw/master/zips/${LIBRARY}-${VERSION}.tar.gz"
+    LIBRARY_URL="https://github.com/atharva-borekar/heroku-gdal-buildpack/raw/master/zips/${LIBRARY}-${VERSION}.tar.gz"
     # new end
 
     mkdir -p "$VENDOR_DIR"
@@ -17,38 +17,38 @@ vendor_lib() {
     echo "-----> Version: $VERSION"
     echo "-----> Vendor Directory: $VENDOR_DIR"
     echo "-----> Library URL: $LIBRARY_URL"
-    if ! curl "${LIBRARY_URL}" -s | tar zxv -C "$VENDOR_DIR" &> /dev/null; then
-      echo " !     Requested $LIBRARY Version ($VERSION) is not available for this stack ($STACK)."
-      echo " !     See: https://github.com/heroku/heroku-geo-buildpack#available-versions"
-      echo " !     Aborting."
+    # if ! curl "${LIBRARY_URL}" -s | tar zxv -C "$VENDOR_DIR" &> /dev/null; then
+    #   echo " !     Requested $LIBRARY Version ($VERSION) is not available for this stack ($STACK)."
+    #   echo " !     See: https://github.com/heroku/heroku-geo-buildpack#available-versions"
+    #   echo " !     Aborting."
+    #   exit 1
+    # fi
+
+    # new start
+    echo "-----> Fetching: $LIBRARY_URL"
+    echo "-----> Output: $VENDOR_DIR/$LIBRARY-$VERSION.tar.gz"
+    if ! curl -sSfL "${LIBRARY_URL}" -o "$VENDOR_DIR/$LIBRARY-$VERSION.tar.gz"; then
+      echo " !     Failed to download $LIBRARY Version ($VERSION) from $LIBRARY_URL"
       exit 1
     fi
 
-    # new start
-    # echo "-----> Fetching: $LIBRARY_URL"
-    # echo "-----> Output: $VENDOR_DIR/$LIBRARY-$VERSION.tar.gz"
-    # if ! curl -sSfL "${LIBRARY_URL}" -o "$VENDOR_DIR/$LIBRARY-$VERSION.tar.gz"; then
-    #   echo " !     Failed to download $LIBRARY Version ($VERSION) from $LIBRARY_URL"
+    # Extract the archive
+    echo "-----> Extracting $LIBRARY-$VERSION"
+    echo "-----> File path: $VENDOR_DIR/$LIBRARY-$VERSION.tar.gz"
+    if ! tar xzf "$VENDOR_DIR/$LIBRARY-$VERSION.tar.gz" -C "$VENDOR_DIR"; then
+      echo " !     Failed to extract $LIBRARY Version ($VERSION)"
+      exit 1
+    fi
+
+    # Verify extraction success
+    # echo "-----> Verifying extraction success: $VENDOR_DIR/$LIBRARY-$VERSION"
+    # if [ ! -d "$VENDOR_DIR/$LIBRARY-$VERSION" ]; then
+    #   echo " !     Failed to find extracted directory for $LIBRARY Version ($VERSION)"
     #   exit 1
     # fi
 
-    # # Extract the archive
-    # echo "-----> Extracting $LIBRARY-$VERSION"
-    # echo "-----> File path: $VENDOR_DIR/$LIBRARY-$VERSION.tar.gz"
-    # if ! tar xzf "$VENDOR_DIR/$LIBRARY-$VERSION.tar.gz" -C "$VENDOR_DIR"; then
-    #   echo " !     Failed to extract $LIBRARY Version ($VERSION)"
-    #   exit 1
-    # fi
-
-    # # Verify extraction success
-    # # echo "-----> Verifying extraction success: $VENDOR_DIR/$LIBRARY-$VERSION"
-    # # if [ ! -d "$VENDOR_DIR/$LIBRARY-$VERSION" ]; then
-    # #   echo " !     Failed to find extracted directory for $LIBRARY Version ($VERSION)"
-    # #   exit 1
-    # # fi
-
-    # # Clean up downloaded archive
-    # rm "$VENDOR_DIR/$LIBRARY-$VERSION.tar.gz"
+    # Clean up downloaded archive
+    rm "$VENDOR_DIR/$LIBRARY-$VERSION.tar.gz"
     # new end
 
     echo "-----> Successfully installed $LIBRARY-$VERSION"
@@ -68,39 +68,39 @@ BP_DIR=$(cd "$(dirname "${0:-}")" || exit 1 ; cd ..; pwd)
 
 VENDOR_DIR="$BUILD_DIR/.heroku-geo-buildpack/vendor"
 
-DEFAULT_GDAL_VERSION="3.5.0"
-DEFAULT_GEOS_VERSION="3.10.2"
-DEFAULT_PROJ_VERSION="8.2.1"
+# DEFAULT_GDAL_VERSION="3.5.0"
+# DEFAULT_GEOS_VERSION="3.10.2"
+# DEFAULT_PROJ_VERSION="8.2.1"
 
 # new
-# DEFAULT_GDAL_VERSION="3.8.5"
-# DEFAULT_GEOS_VERSION="3.11.2"
-# DEFAULT_PROJ_VERSION="9.4.0"
+DEFAULT_GDAL_VERSION="3.8.5"
+DEFAULT_GEOS_VERSION="3.11.2"
+DEFAULT_PROJ_VERSION="9.4.0"
 # new end
 
-if [ -f "$ENV_DIR/GDAL_VERSION" ]; then
-    GDAL_VERSION=$(cat "$ENV_DIR/GDAL_VERSION")
-elif [ -f "$CACHE_DIR/.heroku-geo-buildpack/GDAL-version" ]; then
-    GDAL_VERSION=$(cat "$CACHE_DIR/.heroku-geo-buildpack/GDAL-version")
-else
-    GDAL_VERSION=$DEFAULT_GDAL_VERSION
-fi
+# if [ -f "$ENV_DIR/GDAL_VERSION" ]; then
+#     GDAL_VERSION=$(cat "$ENV_DIR/GDAL_VERSION")
+# elif [ -f "$CACHE_DIR/.heroku-geo-buildpack/GDAL-version" ]; then
+#     GDAL_VERSION=$(cat "$CACHE_DIR/.heroku-geo-buildpack/GDAL-version")
+# else
+#     GDAL_VERSION=$DEFAULT_GDAL_VERSION
+# fi
 
-if [ -f "$ENV_DIR/GEOS_VERSION" ]; then
-    GEOS_VERSION=$(cat "$ENV_DIR/GEOS_VERSION")
-elif [ -f "$CACHE_DIR/.heroku-geo-buildpack/GEOS-version" ]; then
-    GEOS_VERSION=$(cat "$CACHE_DIR/.heroku-geo-buildpack/GEOS-version")
-else
-    GEOS_VERSION=$DEFAULT_GEOS_VERSION
-fi
+# if [ -f "$ENV_DIR/GEOS_VERSION" ]; then
+#     GEOS_VERSION=$(cat "$ENV_DIR/GEOS_VERSION")
+# elif [ -f "$CACHE_DIR/.heroku-geo-buildpack/GEOS-version" ]; then
+#     GEOS_VERSION=$(cat "$CACHE_DIR/.heroku-geo-buildpack/GEOS-version")
+# else
+#     GEOS_VERSION=$DEFAULT_GEOS_VERSION
+# fi
 
-if [ -f "$ENV_DIR/PROJ_VERSION" ]; then
-    PROJ_VERSION=$(cat "$ENV_DIR/PROJ_VERSION")
-elif [ -f "$CACHE_DIR/.heroku-geo-buildpack/PROJ-version" ]; then
-    PROJ_VERSION=$(cat "$CACHE_DIR/.heroku-geo-buildpack/PROJ-version")
-else
-    PROJ_VERSION=$DEFAULT_PROJ_VERSION
-fi
+# if [ -f "$ENV_DIR/PROJ_VERSION" ]; then
+#     PROJ_VERSION=$(cat "$ENV_DIR/PROJ_VERSION")
+# elif [ -f "$CACHE_DIR/.heroku-geo-buildpack/PROJ-version" ]; then
+#     PROJ_VERSION=$(cat "$CACHE_DIR/.heroku-geo-buildpack/PROJ-version")
+# else
+#     PROJ_VERSION=$DEFAULT_PROJ_VERSION
+# fi
 
 GDAL_VERSION=$DEFAULT_GDAL_VERSION
 GEOS_VERSION=$DEFAULT_GEOS_VERSION
