@@ -118,7 +118,7 @@ vendor_lib "PROJ" "$PROJ_VERSION" "$VENDOR_DIR"
   echo "export GDAL_DATA=\"$BUILD_DIR/.heroku-geo-buildpack/vendor/share/gdal\""
   echo "export PATH=\"$BUILD_DIR/.heroku-geo-buildpack/vendor/bin:\$PATH\""
   echo "export LIBRARY_PATH=\"$BUILD_DIR/.heroku-geo-buildpack/vendor/lib:\$LIBRARY_PATH\""
-  echo "export LD_LIBRARY_PATH=\"$BUILD_DIR/.heroku-geo-buildpack/vendor/lib:\$LD_LIBRARY_PATH\""
+  echo "export LD_LIBRARY_PATH=\"$BUILD_DIR/.heroku-geo-buildpack/vendor/lib:/app/.apt/usr/lib/x86_64-linux-gnu/blas:/app/.apt/usr/lib/x86_64-linux-gnu/lapack:\$LD_LIBRARY_PATH\""
   echo "export CPLUS_INCLUDE_PATH=\"$BUILD_DIR/.heroku-geo-buildpack/vendor/include:\$CPLUS_INCLUDE_PATH\""
   echo "export C_INCLUDE_PATH=\"$BUILD_DIR/.heroku-geo-buildpack/vendor/include:\$C_INCLUDE_PATH\""
 } >> "$BP_DIR/export"
@@ -135,5 +135,5 @@ mkdir -p "$(dirname "$PROFILE_PATH")"
   echo 'export GDAL_DATA="$HOME/.heroku-geo-buildpack/vendor/share/gdal"'
   echo 'export PATH="$HOME/.heroku-geo-buildpack/vendor/bin:$PATH"'
   echo 'export LIBRARY_PATH="$HOME/.heroku-geo-buildpack/vendor/lib:$LIBRARY_PATH"'
-  echo 'export LD_LIBRARY_PATH="$HOME/.heroku-geo-buildpack/vendor/lib:$LD_LIBRARY_PATH"'
+  echo 'export LD_LIBRARY_PATH="$HOME/.heroku-geo-buildpack/vendor/lib:/app/.apt/usr/lib/x86_64-linux-gnu/blas:/app/.apt/usr/lib/x86_64-linux-gnu/lapack:$LD_LIBRARY_PATH"'
 } >> "$PROFILE_PATH"
